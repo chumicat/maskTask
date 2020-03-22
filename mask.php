@@ -1,4 +1,5 @@
 <?php
+
 /* Dev: russell.tseng
  * A console version mask map in Taiwan
  */
@@ -10,7 +11,7 @@ require_once('renderColor.php');
 require_once('searchKeyword.php');
 const MAX_ROW_LEN = 1000;
 const FILE_NAME = "maskdata.csv";
-$clmt = new League\CLImate\CLImate;
+$clmt = new League\CLImate\CLImate();
 
 # try to update file
 $clmt->comment("Try to update data from the Internet...");
@@ -19,7 +20,7 @@ $clmt->comment("Trying update is end. Weither <green>SUCCESS</green> or <red>NOT
 $clmt->comment("Import data...");
 
 # import data
-if (!file_exists(FILE_NAME)){
+if (!file_exists(FILE_NAME)) {
     $clmt->error("Import data fail!!");
     $clmt->comment("It seems we didn't have old data and fail on update new one at the same time");
     $clmt->comment("Try it later~~");
@@ -28,9 +29,9 @@ if (!file_exists(FILE_NAME)){
 $fp = fopen(FILE_NAME, "r");
 
 $title = fgetcsv($fp, MAX_ROW_LEN); // not used title
-for ($rowid=0; ($row = fgetcsv($fp, MAX_ROW_LEN)) !== false; ++$rowid) {
+for ($rowid = 0; ($row = fgetcsv($fp, MAX_ROW_LEN)) !== false; ++$rowid) {
     //$data[$rowid]["id"] = $row[0];
-    $data[$rowid]["機構"] = adjustText($row[1]);    
+    $data[$rowid]["機構"] = adjustText($row[1]);
     $data[$rowid]["地址"] = adjustText($row[2]);
     $data[$rowid]["電話"] = $row[3];
     $data[$rowid]["成人口罩"] = (int)$row[4];
@@ -52,7 +53,7 @@ while (true) {
     
     # Input protect and command check
     if (!$keyword) {
-        $clmt->comment("Keyword should not be space, tab or null"); 
+        $clmt->comment("Keyword should not be space, tab or null");
         continue;
     } elseif ($keyword === "clear") {
         system("clear");
@@ -73,7 +74,9 @@ while (true) {
         continue;
     } else {
         $clmt->out("Your keyword is: \"$keyword\".");
-        if (!$continued) $dealData = $data;
+        if (!$continued) {
+            $dealData = $data;
+        }
         $ret = null;
         $continued = false;
     }
@@ -85,7 +88,9 @@ while (true) {
     # Ouput result
     $clmt->info("Result:");
     if ($ret) {
-        usort($ret, function($a, $b){return $a["成人口罩"] < $b["成人口罩"];});
+        usort($ret, function ($a, $b) {
+            return $a["成人口罩"] < $b["成人口罩"];
+        });
         renderColor($ret, "成人口罩");
         renderColor($ret, "孩童口罩");
         $clmt->table($ret);
@@ -94,4 +99,3 @@ while (true) {
         $clmt->error(">>> Sorry! No result! <<<");
     }
 }
-

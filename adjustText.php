@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Replace word which have the same meaning
- * 
+ *
  * Original maskdata.csv is not in a good formatted, each institution might have different format of same word.
  * adjustText will adjust these word and that word in $text in same format.
- * 
+ *
  * @param string $text string to adjust
  * @return string string after adjust
  */
