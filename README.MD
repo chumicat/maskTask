@@ -27,6 +27,6 @@ Otherwise, type commands to do something.
    We need more accurate search!
    So, let me use "continue" command to search our result now.
    ![](https://i.imgur.com/sjlCPdi.png)
-4. Boom! I got my result!
+4. Boom! By make another search, I got my result!
    However, it's a little bit sad that it seems all mask for adult had been sold out.
    ![](https://i.imgur.com/5CkSgyh.png)
