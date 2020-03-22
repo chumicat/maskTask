@@ -43,6 +43,7 @@ $clmt->info("Last update time: $lastUpdateTime");
 
 # Recursively search
 $ret = null;
+$continued = false;
 while (true) {
     $clmt->whisper(str_repeat('=', 40));
     $clmt->comment("Input <green>keyword</green> to search or <green>man</green> to show commands:");
@@ -50,7 +51,6 @@ while (true) {
     $keyword = adjustText(trim(fgets(STDIN)));
     
     # Input protect and command check
-    $clmt->out("Your keyword is: \"$keyword\".");
     if (!$keyword) {
         $clmt->comment("Keyword should not be space, tab or null"); 
         continue;
@@ -62,14 +62,25 @@ while (true) {
     } elseif ($keyword === "man") {
         $clmt->comment("    * <green>man</green> to show command menu.");
         $clmt->comment("    * <green>clear</green> to clear console.");
+        $clmt->comment("    * <green>continue</green> to keep search on current result.");
         $clmt->comment("    * <red>exit</red> to exit.");
         $clmt->comment("    * <red>^c</red> to exit.");
         continue;
+    } elseif ($keyword === "continue") {
+        $dealData = $ret;
+        $ret = null;
+        $continued = true;
+        continue;
+    } else {
+        $clmt->out("Your keyword is: \"$keyword\".");
+        if (!$continued) $dealData = $data;
+        $ret = null;
+        $continued = false;
     }
 
     # Search keyword in $data
     $clmt->comment("Search data...");
-    $ret = searchKeyword($data, $keyword, "地址", "機構");
+    $ret = searchKeyword($dealData, $keyword, "地址", "機構");
 
     # Ouput result
     $clmt->info("Result:");
@@ -82,6 +93,5 @@ while (true) {
     } else {
         $clmt->error(">>> Sorry! No result! <<<");
     }
-    $ret = null;
 }
 
