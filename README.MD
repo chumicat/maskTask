@@ -5,5 +5,5 @@
 ```
 ## Run the program
 ```shell
-php mask.php
+> php mask.php
 ```
